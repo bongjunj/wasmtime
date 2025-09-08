@@ -204,5 +204,7 @@
 (rule (simplify (band ty y (band ty x y))) (band ty x y))
 
 (rule (simplify (band ty (bxor ty x (bnot ty y)) x)) (band ty x y))
+
 (rule (simplify (band ty (bor ty x (bnot ty y)) y)) (band ty x y))
+(rule (simplify (band ty y (bor ty (bnot ty y) x))) (band ty y x))
 
