@@ -217,6 +217,10 @@
 (rule (simplify (iadd ty (bor ty x y) (band ty x y))) (iadd ty x y))
 (rule (simplify (iadd ty (band ty x y) (bor ty x y))) (iadd ty x y))
 
+; (x ^ y) - (x | y) == -(x & y)
+(rule (simplify (isub ty (bxor ty x y) (bor ty x y)))
+      (isub ty (iconst_u ty 0) (band ty x y)))
+
 ; (x & y) | x --> x
 (rule (simplify (bor ty (band ty x y) x)) x)
 (rule (simplify (bor ty x (band ty x y))) x)

@@ -1,0 +1,24 @@
+;; Validate: (x ^ y) - (x | y) == -(x & y)
+
+test interpret
+test run
+target x86_64
+target aarch64
+target riscv64
+target s390x
+
+function %bxor_bor_sub(i32, i32) -> i32 {
+block0(v0: i32, v1: i32):
+    v2 = bxor v0, v1
+    v3 = bor v0, v1
+    v4 = isub v2, v3
+    return v4
+}
+
+; run: %bxor_bor_sub(0x0, 0x0) == 0x0
+; run: %bxor_bor_sub(0x12345678, 0x9abcdef0) == 0xedcba990
+; run: %bxor_bor_sub(0xffffffff, 0x1) == 0xffffffff
+; run: %bxor_bor_sub(0x80000000, 0x7fffffff) == 0x0
+; run: %bxor_bor_sub(0xdeadbeef, 0x10) == 0x0
+
+
