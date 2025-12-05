@@ -1,0 +1,20 @@
+test run
+target x86_64
+target aarch64
+target s390x
+target riscv64
+
+function %nested_selects(i8, i32, i32) -> i32 {
+block0(v0: i8, v1: i32, v2: i32):
+    v3 = icmp eq v1, v2
+    v4 = select v3, v1, v2
+    v5 = select v0, v2, v1
+    v6 = select v0, v4, v5
+    return v6
+}
+
+; run: %nested_selects(1, 7, 3) == 3
+; run: %nested_selects(1, 4, 4) == 4
+; run: %nested_selects(0, 5, 9) == 5
+; run: %nested_selects(0, -2, -2) == -2
+
