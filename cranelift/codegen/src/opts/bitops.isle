@@ -221,6 +221,10 @@
 (rule (simplify (bor ty (band ty x y) x)) x)
 (rule (simplify (bor ty x (band ty x y))) x)
 
+; (x & ~y) | (x ^ y) == x ^ y
+(rule (simplify (bor ty (band ty x (bnot ty y)) (bxor ty x y))) (bxor ty x y))
+(rule (simplify (bor ty (bxor ty x y) (band ty x (bnot ty y)))) (bxor ty x y))
+
 ; (x ^ y) ^ y --> x
 (rule (simplify (bxor ty (bxor ty x y) y)) x)
 (rule (simplify (bxor ty y (bxor ty x y))) x)
