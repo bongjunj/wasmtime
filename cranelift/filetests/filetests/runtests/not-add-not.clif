@@ -1,0 +1,24 @@
+;; Validate the rewrite: ~((~x) + y) == x - y
+
+test interpret
+test run
+target x86_64
+target aarch64
+target riscv64
+target s390x
+
+function %not_add_not(i32, i32) -> i32 {
+block0(v0: i32, v1: i32):
+    v2 = bnot v0
+    v3 = iadd v2, v1
+    v4 = bnot v3
+    return v4
+}
+
+; run: %not_add_not(0x0, 0x1) == 0xffffffff
+; run: %not_add_not(0x12345678, 0x9abcdef0) == 0x77777788
+; run: %not_add_not(0xffffffff, 0x1) == 0xfffffffe
+; run: %not_add_not(0x80000000, 0x7fffffff) == 0x1
+; run: %not_add_not(0xdeadbeef, 0x10) == 0xdeadbedf
+
+
