@@ -1,0 +1,24 @@
+;; Validate the rewrite: (x | y) + (-y) == x & ~y
+
+test interpret
+test run
+target x86_64
+target aarch64
+target riscv64
+target s390x
+
+function %bor_add_neg(i32, i32) -> i32 {
+block0(v0: i32, v1: i32):
+    v2 = bor v0, v1
+    v3 = ineg v1
+    v4 = iadd v2, v3
+    return v4
+}
+
+; run: %bor_add_neg(0x55, 0x0f) == 0x50
+; run: %bor_add_neg(0x12345678, 0xffffffff) == 0x0
+; run: %bor_add_neg(0x0, 0x80000000) == 0x0
+; run: %bor_add_neg(0xabcdef01, 0x0f0f0f0f) == 0xa0c0e000
+; run: %bor_add_neg(0xabcdef01, 0x70000000) == 0x8bcdef01
+
+
