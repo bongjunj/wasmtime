@@ -75,6 +75,10 @@
 (rule (simplify (bnot ty (iadd ty x (iconst_s ty -1))))
       (ineg ty x))
 
+;; (c ? -1 : 1) * x == c ? -x : x
+(rule (simplify (imul ty (select ty c (iconst_s ty -1) (iconst_s ty 1)) x))
+      (select ty c (isub ty (iconst_u ty 0) x) x))
+
 ;; x / 1 == x.
 (rule (simplify_skeleton (sdiv x (iconst_s ty 1))) x)
 (rule (simplify_skeleton (udiv x (iconst_u ty 1))) x)

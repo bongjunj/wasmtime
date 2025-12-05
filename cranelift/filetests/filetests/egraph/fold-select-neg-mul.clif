@@ -1,0 +1,35 @@
+test optimize precise-output
+set opt_level=speed
+target x86_64
+
+function %fold_select_neg_mul_i32(i32, b1) -> i32 {
+block0(v0: i32, v1: b1):
+    v2 = select v1, iconst.i32 -1, iconst.i32 1
+    v3 = imul v2, v0
+    return v3
+}
+
+; function %fold_select_neg_mul_i32(i32, b1) -> i32 fast {
+; block0(v0: i32, v1: b1):
+;     v4 = isub iconst.i32 0, v0
+;     v5 = select v1, v4, v0
+;     return v5
+; }
+
+
+
+function %fold_select_neg_mul_i64(i64, b1) -> i64 {
+block0(v0: i64, v1: b1):
+    v2 = select v1, iconst.i64 -1, iconst.i64 1
+    v3 = imul v2, v0
+    return v3
+}
+
+; function %fold_select_neg_mul_i64(i64, b1) -> i64 fast {
+; block0(v0: i64, v1: b1):
+;     v4 = isub iconst.i64 0, v0
+;     v5 = select v1, v4, v0
+;     return v5
+; }
+
+

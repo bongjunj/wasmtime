@@ -1,0 +1,24 @@
+;; Validate: (c ? -1 : 1) * x == (c ? -x : x)
+
+test interpret
+test run
+target x86_64
+target aarch64
+target riscv64
+target s390x
+
+function %select_neg_mul(i32, b1) -> i32 {
+block0(v0: i32, v1: b1):
+    v2 = select v1, iconst.i32 -1, iconst.i32 1
+    v3 = imul v2, v0
+    return v3
+}
+
+; run: %select_neg_mul(0x12345678, true) == 0xedcba988
+; run: %select_neg_mul(0x12345678, false) == 0x12345678
+; run: %select_neg_mul(0xffffffff, true) == 0x1
+; run: %select_neg_mul(0xffffffff, false) == 0xffffffff
+; run: %select_neg_mul(0x80000000, true) == 0x80000000
+; run: %select_neg_mul(0x80000000, false) == 0x80000000
+
+
