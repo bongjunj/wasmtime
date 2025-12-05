@@ -49,6 +49,10 @@
 (rule (simplify (bnot ty (band t x y)))
       (bor ty (bnot ty x) (bnot ty y)))
 
+;; (~x) | (~y) == ~(x & y)
+(rule (simplify (bor ty (bnot ty x) (bnot ty y)))
+      (bnot ty (band ty x y)))
+
 ;; `or(and(x, y), not(y)) == or(x, not(y))`
 (rule (simplify (bor ty
                      (band ty x y)

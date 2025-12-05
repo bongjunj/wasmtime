@@ -1,0 +1,37 @@
+test optimize precise-output
+set opt_level=speed
+target x86_64
+
+function %fold_bor_not_neg1_i32(i32, i32) -> i32 {
+block0(v0: i32, v1: i32):
+    v2 = bxor v0, iconst.i32 -1
+    v3 = bxor v1, iconst.i32 -1
+    v4 = bor v2, v3
+    return v4
+}
+
+; function %fold_bor_not_neg1_i32(i32, i32) -> i32 fast {
+; block0(v0: i32, v1: i32):
+;     v5 = band v0, v1
+;     v6 = bxor v5, iconst.i32 -1
+;     return v6
+; }
+
+
+
+function %fold_bor_not_neg1_i64(i64, i64) -> i64 {
+block0(v0: i64, v1: i64):
+    v2 = bxor v0, iconst.i64 -1
+    v3 = bxor v1, iconst.i64 -1
+    v4 = bor v2, v3
+    return v4
+}
+
+; function %fold_bor_not_neg1_i64(i64, i64) -> i64 fast {
+; block0(v0: i64, v1: i64):
+;     v5 = band v0, v1
+;     v6 = bxor v5, iconst.i64 -1
+;     return v6
+; }
+
+
