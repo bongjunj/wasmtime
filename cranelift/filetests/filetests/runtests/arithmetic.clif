@@ -70,6 +70,18 @@ block0(v0: i8,v1: i8):
 ; run: %add_i8(0xA0, 0x0B) == 0xAB
 ; run: %add_i8(0xC0, 0x1D) == 0xDD
 
+function %add_shift_scale_i32(i32) -> i32 {
+block0(v0: i32):
+    v1 = iconst.i32 3
+    v2 = ishl v0, v1
+    v3 = iadd v0, v2
+    return v3
+}
+; run: %add_shift_scale_i32(0) == 0
+; run: %add_shift_scale_i32(1) == 9
+; run: %add_shift_scale_i32(-1) == -9
+; run: %add_shift_scale_i32(0x10000000) == 0x90000000
+; run: %add_shift_scale_i32(0x7FFFFFFF) == 0x7FFFFFF7
 
 function %sub_i64(i64, i64) -> i64 {
 block0(v0: i64,v1: i64):

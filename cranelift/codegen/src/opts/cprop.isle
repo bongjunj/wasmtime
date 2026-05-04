@@ -500,3 +500,7 @@
 ;; ~(x + y) = -(x + y) - 1 = (~x) - y = (~x) + (-y)
 ;; bnot pushed to the leaf so that it not only canonicalzes the IR but also folds the constant y into -y
 (rule (simplify (bnot (fits_in_64 ty) (iadd ty x (iconst ty y)))) (iadd ty (bnot ty x) (iconst ty (imm64_neg ty y))))
+
+;; x + (x << C) = x * (1 + (1 << C))
+(rule (simplify (iadd ty x (ishl ty x (iconst ty y)))) (imul ty x (iadd ty (iconst_u ty 1) (ishl ty (iconst_u ty 1) (iconst ty y)))))
+
